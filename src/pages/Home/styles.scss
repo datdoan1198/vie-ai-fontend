@@ -1,0 +1,9 @@
+.general-dialog-wrap {
+  .ant-modal-content {
+    border-radius: 6px;
+    overflow: hidden;
+    .ant-modal-footer {
+      display: none !important;
+    }
+  }
+}

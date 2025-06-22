@@ -1,0 +1,17 @@
+.headerWrap {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
+.btnWrap {
+  display: flex;
+  justify-content: flex-end;
+ .btnConfirm {
+   background: #4d85da;
+   color: white;
+   &:hover {
+     background: #3e6cb2 !important;
+     color: white !important;
+   }
+ }
+}

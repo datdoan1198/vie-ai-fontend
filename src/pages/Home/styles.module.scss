@@ -1,0 +1,143 @@
+.homeContainer {
+  height: calc(100vh - 130px);
+  overflow: auto;
+  width: 100%;
+  padding: 1rem;
+
+  .createGroupWrap {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 16px;
+
+    .btnCreateSkill {
+      background: #3faf3f;
+      color: white;
+      &:hover {
+        background: #2f862f;
+        color: white;
+      }
+    }
+
+    .btnCreateLesson {
+      background: #de925b;
+      color: white;
+      &:hover {
+        background: #b97849;
+        color: white;
+      }
+    }
+
+    .btnCreateExercise {
+      background: #4d85da;
+      color: white;
+      &:hover {
+        background: #3e6cb2;
+        color: white;
+      }
+    }
+  }
+
+  .mainContentWrap {
+
+    .filterWrapGroup {
+      background: white;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      padding: 15px;
+      .filterWrap {
+        display: flex;
+        flex: 1 1;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+    }
+
+    .listExerciseWrap {
+      padding: 15px;
+      border-radius: 16px;
+      background: white;
+    }
+  }
+}
+
+.boxPromptWrap {
+  .boxLabelWrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+  }
+  .inputType {
+    margin-block: 10px;
+  }
+
+  .labelGroup {
+    display: flex;
+    justify-content: space-between;
+
+    .btnAddItem {
+      background: #4d85da;
+      color: white;
+      &:hover {
+        background: #3e6cb2 !important;
+        color: white !important;
+      }
+    }
+  }
+}
+
+.btnWrap {
+  display: flex;
+  justify-content: flex-end;
+  .btnConfirm {
+    background: #4d85da;
+    color: white;
+    &:hover {
+      background: #3e6cb2 !important;
+      color: white !important;
+    }
+  }
+}
+
+.btnDelete {
+  background: #f86363;
+  color: white;
+  &:hover {
+    background: #c24141 !important;
+    color: white !important;
+  }
+}
+
+.correctAnswersGroup {
+  width: 100%;
+  .answerWrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    .mainWrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 10px;
+
+      .iconWrap {
+        margin-bottom: 10px;
+      }
+    }
+
+    .btnWrap {
+      display: flex;
+      gap: 10px;
+      .btnDelete {
+        background: #f86363;
+        color: white;
+        &:hover {
+          background: #c24141 !important;
+          color: white !important;
+        }
+      }
+    }
+  }
+}
