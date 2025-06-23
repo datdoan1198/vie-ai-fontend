@@ -6,7 +6,7 @@ const Header = () => {
 
     return (
         <header className={styles.headerWrap}>
-            Header
+            THU THẬP DỮ LIỆU NGÂN HÀNG CÂU HỎI VIE AI
         </header>
     );
 };

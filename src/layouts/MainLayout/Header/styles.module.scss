@@ -64,7 +64,7 @@
     @apply flex items-center
   }
 
-  @apply w-[calc(100%_-_32px)] h-[74px] bg-gray-100 flex items-center justify-between py-2.5 px-[15px] shadow-[0_10px_30px_0_rgba(82,63,105,0.05)] absolute z-10 top-3 left-4 rounded-2xl
+  @apply font-semibold w-[calc(100%_-_32px)] h-[74px] bg-gray-100 flex items-center justify-between py-2.5 px-[15px] shadow-[0_10px_30px_0_rgba(82,63,105,0.05)] absolute z-10 top-3 left-4 rounded-2xl
 }
 
 @media only screen and (max-width: 375px) {

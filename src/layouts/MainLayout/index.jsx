@@ -44,7 +44,7 @@ function MainLayout(props) {
         <div className={`${styles.boxMainLayout}`}>
             <div className={styles.headerBox}></div>
             <div className={styles.mainLayoutWrap}>
-                <SideBar isShowSideBar={isShowSideBar}/>
+                {/*<SideBar isShowSideBar={isShowSideBar}/>*/}
                 <div className={`${styles.mainWrap} ${!isShowSideBar ? styles.mainWrapWithConditionSideBarClose : ''}`}>
                     <Header isShowSideBar={isShowSideBar}/>
                     <main className={styles.mainContentWrap}>

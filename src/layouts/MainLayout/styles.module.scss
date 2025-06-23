@@ -48,7 +48,7 @@
       }
       @apply h-screen pt-[86px] bg-gray-90
     }
-    @apply w-[calc(100%_-_265px)] ml-[265px] h-full transition-all duration-500 relative
+    @apply w-[calc(100%)] h-full transition-all duration-500 relative
   }
 
   .mainWrapWithConditionSideBarClose {

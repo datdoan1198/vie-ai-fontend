@@ -12,6 +12,7 @@ import {InboxOutlined} from "@ant-design/icons";
 import React from "react";
 import InlineSVG from "react-inlinesvg";
 import Question from "@/assets/images/icons/solid/circle-question.svg";
+import Change from "@/assets/images/icons/solid/right-left.svg";
 
 const { Dragger } = Upload;
 
@@ -252,7 +253,9 @@ export default function ModalCreateExercise(props) {
                                                             onChange={(e) => handleChangeCorrectAnswersTypeMatch(index, 'en', e.target.value)}
                                                         />
                                                     </div>
-                                                    <div className={styles.iconWrap}>sdsd</div>
+                                                    <div className={styles.iconWrap}>
+                                                        <InlineSVG src={Change} width={14}/>
+                                                    </div>
                                                     <div>
                                                         <div className={"label-wrap"}>
                                                             vi
