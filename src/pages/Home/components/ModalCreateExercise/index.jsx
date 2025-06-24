@@ -68,11 +68,15 @@ export default function ModalCreateExercise(props) {
                         {
                             formExercise.type === EXERCISE_TYPES.FILL_IN_BLANK &&
                             <>
-                                <Tooltip placement="top" title={<div>Nhấn nút để chèn đáp án vào chỗ trống</div>}>
+                                <Tooltip placement="top" title={<div>Nhấn nút chèn chỗ trống để lưu vị trí đáp án đúng</div>}>
                                     <InlineSVG src={Question} width={16}/>
                                 </Tooltip>
 
-                                <Button onClick={() => handleAddTextAnswerTypeFill()} className={styles.btnAddAnswer}>Chèn đáp án</Button>
+                                <button
+                                    onClick={() => handleAddTextAnswerTypeFill()}
+                                    className={styles.btnAddAnswer}
+                                >Chèn chỗ trống
+                                </button>
                             </>
                         }
 

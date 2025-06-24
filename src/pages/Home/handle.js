@@ -323,11 +323,13 @@ export default function Handle() {
     }
 
     const sanitizeBlanks = (text) => {
-        const regex = /\[?b?l?a?n?k?\]?/gi;
+        text = text.replace(/\[bl[a-z]*$/gi, '');
 
-        return text.replace(regex, (match) => {
-            return match === "[blank]" ? match : "";
-        });
+        text = text.replace(/(^|\s)blank\](?=\s|$)/gi, '');
+
+        text = text.replace(/\[(?!blank\])([^\]]+)\]/gi, '');
+
+        return text;
     };
 
     const handleAddTextAnswerTypeFill = () => {
