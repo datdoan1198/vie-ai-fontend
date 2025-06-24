@@ -18,7 +18,8 @@ export default function Home() {
         onChangeSkill, onChangeLesson,
         handleChangeSelect, handleChangePromptData, handleCreateExercise,
         handleChangeCorrectAnswersTypeMatch, handleDeleteItemAnswerTypeMatch, handleCreateItemAnswerTypeMatch,
-        handleSuccessCreateSkill, handleSuccessCreateLesson, handleChangePagination
+        handleSuccessCreateSkill, handleSuccessCreateLesson, handleChangePagination,
+        handleAddTextAnswerTypeFill, handleChangeValuePromptValueQuestionTypeFill
     } = Handle();
 
     return (
@@ -121,6 +122,8 @@ export default function Home() {
                 handleChangeCorrectAnswersTypeMatch={handleChangeCorrectAnswersTypeMatch}
                 handleDeleteItemAnswerTypeMatch={handleDeleteItemAnswerTypeMatch}
                 handleCreateExercise={handleCreateExercise}
+                handleAddTextAnswerTypeFill={handleAddTextAnswerTypeFill}
+                handleChangeValuePromptValueQuestionTypeFill={handleChangeValuePromptValueQuestionTypeFill}
             />
 
             <ModalCreateSkill

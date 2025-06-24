@@ -85,6 +85,16 @@
       }
     }
   }
+
+  .btnAddAnswer {
+    background: #4d85da;
+    color: white;
+    margin-bottom: 10px;
+    &:hover {
+      background: #3e6cb2 !important;
+      color: white !important;
+    }
+  }
 }
 
 .btnWrap {

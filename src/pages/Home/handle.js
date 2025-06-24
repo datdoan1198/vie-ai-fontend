@@ -99,7 +99,6 @@ export default function Handle() {
                                                     <div>
                                                         <span>{correct_answer.en} - {correct_answer.vi} </span>
                                                     </div>
-
                                             }
                                         </div>
                                     )
@@ -300,7 +299,7 @@ export default function Handle() {
         // handleGetListStaff(newDataFilter);
     }
 
-    const handleChangePromptData = (type, value, ) => {
+    const handleChangePromptData = (type, value) => {
         let newFormExercise = _.cloneDeep(formExercise)
         newFormExercise.prompt[type] = value
         if (
@@ -313,6 +312,27 @@ export default function Handle() {
         } else {
             newFormExercise.correct_answers = []
         }
+        setFormExercise(newFormExercise)
+    }
+
+    const handleChangeValuePromptValueQuestionTypeFill = (type, value) => {
+        const newValue = sanitizeBlanks(value);
+        let newFormExercise = _.cloneDeep(formExercise)
+        newFormExercise.prompt[type] = newValue
+        setFormExercise(newFormExercise)
+    }
+
+    const sanitizeBlanks = (text) => {
+        const regex = /\[?b?l?a?n?k?\]?/gi;
+
+        return text.replace(regex, (match) => {
+            return match === "[blank]" ? match : "";
+        });
+    };
+
+    const handleAddTextAnswerTypeFill = () => {
+        let newFormExercise = _.cloneDeep(formExercise)
+        newFormExercise.prompt.value = `${newFormExercise.prompt.value} [blank]`
         setFormExercise(newFormExercise)
     }
 
@@ -407,6 +427,7 @@ export default function Handle() {
         onChangeSkill, onChangeLesson,
         handleChangeSelect, handleChangePromptData, handleCreateExercise,
         handleChangeCorrectAnswersTypeMatch, handleDeleteItemAnswerTypeMatch, handleCreateItemAnswerTypeMatch,
-        handleSuccessCreateSkill, handleSuccessCreateLesson, handleChangePagination
+        handleSuccessCreateSkill, handleSuccessCreateLesson, handleChangePagination,
+        handleAddTextAnswerTypeFill, handleChangeValuePromptValueQuestionTypeFill
     }
 }

@@ -21,7 +21,8 @@ export default function ModalCreateExercise(props) {
         formExercise, visibleCreateExercise, propsCreateFile,
         setVisibleCreateExercise, handleChangeSelect, handleChangePromptData,
         handleCreateItemAnswerTypeMatch, handleChangeCorrectAnswersTypeMatch,
-        handleDeleteItemAnswerTypeMatch, handleCreateExercise
+        handleDeleteItemAnswerTypeMatch, handleCreateExercise,
+        handleAddTextAnswerTypeFill, handleChangeValuePromptValueQuestionTypeFill
     } = props
 
     return (
@@ -56,9 +57,25 @@ export default function ModalCreateExercise(props) {
                 </div>
 
                 <div className={`input-wrap ${styles.boxPromptWrap}`}>
-                    <div className={"label-wrap"}>
-                        Câu hỏi
-                        <span className={"required"}>*</span>
+
+
+                    <div className={styles.boxLabelWrap}>
+                        <div className={"label-wrap"}>
+                            Câu hỏi
+                            <span className={"required"}>*</span>
+                        </div>
+
+                        {
+                            formExercise.type === EXERCISE_TYPES.FILL_IN_BLANK &&
+                            <>
+                                <Tooltip placement="top" title={<div>Nhấn nút để chèn đáp án vào chỗ trống</div>}>
+                                    <InlineSVG src={Question} width={16}/>
+                                </Tooltip>
+
+                                <Button onClick={() => handleAddTextAnswerTypeFill()} className={styles.btnAddAnswer}>Chèn đáp án</Button>
+                            </>
+                        }
+
                     </div>
 
                     {
@@ -96,13 +113,24 @@ export default function ModalCreateExercise(props) {
                         </div>
                     }
 
-                    <InputForm
-                        placeholder={'Nhập câu hỏi'}
-                        required={false}
-                        type="value"
-                        value={formExercise.prompt.value}
-                        handleChangeData={handleChangePromptData}
-                    />
+                    {
+                        formExercise.type === EXERCISE_TYPES.FILL_IN_BLANK ?
+                            <InputForm
+                                placeholder={'Nhập câu hỏi'}
+                                required={false}
+                                type="value"
+                                value={formExercise.prompt.value}
+                                handleChangeData={handleChangeValuePromptValueQuestionTypeFill}
+                            /> :
+                            <InputForm
+                                placeholder={'Nhập câu hỏi'}
+                                required={false}
+                                type="value"
+                                value={formExercise.prompt.value}
+                                handleChangeData={handleChangePromptData}
+                            />
+                    }
+
 
                     {
                         formExercise.prompt.type !== PROMPT_EXERCISE_TYPES.TEXT &&
@@ -131,7 +159,7 @@ export default function ModalCreateExercise(props) {
                             <div className={`input-wrap ${styles.boxPromptWrap}`}>
                                 <div className={styles.boxLabelWrap}>
                                     <div className={"label-wrap"}>
-                                        Đáp án
+                                        Các lựa chọn
                                         <span className={"required"}>*</span>
                                     </div>
 
@@ -166,7 +194,7 @@ export default function ModalCreateExercise(props) {
 
                         <div className={styles.boxLabelWrap}>
                             <div className={"label-wrap"}>
-                                Kết quả
+                                Đáp án đúng
                                 <span className={"required"}>*</span>
                             </div>
 
@@ -210,7 +238,7 @@ export default function ModalCreateExercise(props) {
                                             showSearch={false}
                                             mode="tags"
                                             style={{ width: '100%' }}
-                                            placeholder="Chọn kết quả"
+                                            placeholder="Chọn đáp án đúng"
                                             value={formExercise.correct_answers}
                                             onChange={(value) => handleChangeSelect('correct_answers', value)}
                                             options={[]}
@@ -225,7 +253,7 @@ export default function ModalCreateExercise(props) {
                                             }
                                             showSearch={false}
                                             style={{ width: '100%' }}
-                                            placeholder="Chọn kết quả"
+                                            placeholder="Chọn đáp án đúng"
                                             value={formExercise.correct_answers}
                                             onChange={(value) => handleChangeSelect('correct_answers', value)}
                                             options={formExercise.choices ? formExercise.choices.map(item => ({
