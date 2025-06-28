@@ -7,7 +7,13 @@ import {
     getAllTopics
 } from "@/api/data/index.js";
 import React, {useEffect, useState} from "react";
-import {CHOICE_TYPES, EXERCISE_TYPES, PROMPT_EXERCISE_TYPES} from "@/utils/constants.js";
+import {
+    CHOICE_TYPES,
+    EXERCISE_TYPES,
+    OPTION_PROMPT_TYPE_LISTEN,
+    PROMPT_EXERCISE_LISTEN_TYPES,
+    PROMPT_EXERCISE_TYPES
+} from "@/utils/constants.js";
 import _ from 'lodash'
 import {Button, message, Space, Tooltip, Upload} from "antd";
 import styles from './styles.module.scss'
@@ -71,7 +77,28 @@ export default function Handle() {
                             {
                                 record.choices.map((choice, index) => {
                                     return(
-                                        <div key={index}>{choice}</div>
+                                        <div key={index}>
+                                            {
+                                                typeof choice === 'object' && choice !== null ?
+                                                    <div>
+                                                        {
+                                                            choice.type === CHOICE_TYPES.IMAGE ?
+                                                                <div style={{marginBottom: '15px'}}>
+                                                                    <div>Đáp án của hình ảnh: {choice.value}</div>
+                                                                    <img style={{width: '60px', height: '60px'}} src={choice.path} alt=""/>
+                                                                </div> :
+                                                                <div style={{marginBottom: '15px'}}>
+                                                                    <div>Đáp án của audio: {choice.value}</div>
+                                                                    <audio controls>
+                                                                        <source src={choice.path} type="audio/ogg" />
+                                                                        <source src={choice.path} type="audio/mpeg" />
+                                                                    </audio>
+                                                                </div>
+                                                        }
+                                                    </div> :
+                                                    <div>{choice}</div>
+                                            }
+                                        </div>
                                     )
                                 })
                             }
@@ -138,11 +165,12 @@ export default function Handle() {
         choice_type: CHOICE_TYPES.TEXT,
         correct_answers: [],
     });
+    const [loadingCreateExercise, setLoadingCreateExercise] = useState(false)
     const propsCreateFile = {
         name: 'file',
         multiple: false,
         maxCount: 1,
-        accept: '.png,.jpg,.jpeg,.gif,.bmp,.webp,.mp3,.wav,.ogg',
+        accept: '.png,.jpg,.jpeg,.gif,.bmp,.webp',
         showUploadList: true,
         beforeUpload: (file) => {
             const acceptedTypes = [
@@ -151,9 +179,6 @@ export default function Handle() {
                 'image/gif',
                 'image/bmp',
                 'image/webp',
-                'audio/mpeg',
-                'audio/wav',
-                'audio/ogg',
             ];
 
             const isAccept = acceptedTypes.includes(file.type);
@@ -284,19 +309,51 @@ export default function Handle() {
     const handleChangeSelect = (type, value) => {
         let newFormExercise = _.cloneDeep(formExercise);
         newFormExercise[type] = value;
-        if (type === 'choices') {
-            newFormExercise.correct_answers = [];
-        } else if (type === "type") {
-            newFormExercise.prompt = {
-                type: value !== EXERCISE_TYPES.LISTEN ? PROMPT_EXERCISE_TYPES.TEXT : PROMPT_EXERCISE_TYPES.AUDIO,
-                value: ''
-            }
-            newFormExercise.choices = []
-            newFormExercise.choice_type = CHOICE_TYPES.TEXT
-            newFormExercise.correct_answers = []
+
+        switch (type) {
+            case 'type':
+                newFormExercise.prompt = {
+                    type: value !== EXERCISE_TYPES.LISTEN ? PROMPT_EXERCISE_TYPES.TEXT : PROMPT_EXERCISE_TYPES.AUDIO,
+                    value: value === EXERCISE_TYPES.LISTEN ?
+                        OPTION_PROMPT_TYPE_LISTEN.find(item => item.value === PROMPT_EXERCISE_LISTEN_TYPES.ENTER_INPUT).label :
+                        '',
+                    ...(value === EXERCISE_TYPES.LISTEN && {type_answer: PROMPT_EXERCISE_LISTEN_TYPES.ENTER_INPUT})
+                }
+                newFormExercise.choices = []
+                newFormExercise.choice_type = CHOICE_TYPES.TEXT
+                newFormExercise.correct_answers = []
+                break
+            case 'choices':
+                newFormExercise.correct_answers = [];
+                break
+            case 'choice_type':
+                if (value === CHOICE_TYPES.IMAGE) {
+                    newFormExercise.choices = [
+                        {
+                            file: null,
+                            imageUrl: '',
+                            text: ''
+                        }
+                    ]
+                } else {
+                    newFormExercise.choices = []
+                }
+                newFormExercise.correct_answers = []
+                break
+        }
+
+        setFormExercise(newFormExercise);
+    }
+
+    const handleChangeImageChoices  = (index, choose, type) => {
+        let newFormExercise = _.cloneDeep(formExercise);
+        if (type === 'file') {
+            newFormExercise.choices[index].file = choose.file
+            newFormExercise.choices[index].imageUrl = choose.imageUrl
+        } else {
+            newFormExercise.choices[index].text = choose.text
         }
         setFormExercise(newFormExercise);
-        // handleGetListStaff(newDataFilter);
     }
 
     const handleChangePromptData = (type, value) => {
@@ -309,13 +366,17 @@ export default function Handle() {
             newFormExercise.correct_answers = [
                 {en: '', vi: ''}
             ]
+        } else if (type === 'type_answer') {
+            newFormExercise.prompt.value = OPTION_PROMPT_TYPE_LISTEN.find(item => item.value === value).label;
+            newFormExercise.correct_answers = []
         } else {
             newFormExercise.correct_answers = []
         }
+        newFormExercise.choices = []
         setFormExercise(newFormExercise)
     }
 
-    const handleChangeValuePromptValueQuestionTypeFill = (type, value) => {
+    const handleChangePromptValueQuestionTypeFill = (type, value) => {
         const newValue = sanitizeBlanks(value);
         let newFormExercise = _.cloneDeep(formExercise)
         newFormExercise.prompt[type] = newValue
@@ -360,20 +421,31 @@ export default function Handle() {
         const formData = new FormData()
 
         formData.append('type', formExercise.type)
+        formData.append('choice_type', formExercise.choice_type)
         formData.append('prompt', JSON.stringify(formExercise.prompt))
-        if (
-            (formExercise.prompt.file && formExercise.prompt.type !== PROMPT_EXERCISE_TYPES.TEXT) ||
-            formExercise.type === EXERCISE_TYPES.LISTEN
-        ) {
-            formData.append('file_prompt', formExercise.prompt.file)
+        if (formExercise.choice_type === CHOICE_TYPES.IMAGE) {
+            const choices = []
+            formExercise.choices.forEach((choose) => {
+                choices.push(choose.text)
+                formData.append(`choose_files`, choose.file);
+            });
+            formData.append('choices', JSON.stringify(choices))
+        } else {
+            formData.append('choices', JSON.stringify(formExercise.choices))
         }
-        formData.append('choices', JSON.stringify(formExercise.choices))
+
         if (formExercise.type === EXERCISE_TYPES.SINGLE_CHOICE) {
             formData.append('correct_answers', JSON.stringify([formExercise.correct_answers]))
         } else {
             formData.append('correct_answers', JSON.stringify(formExercise.correct_answers))
         }
+        if (formExercise.prompt.type === PROMPT_EXERCISE_TYPES.IMAGE) {
+            formData.append('file_prompt', formExercise.prompt.file)
+        }
 
+        console.log(formExercise)
+
+        setLoadingCreateExercise(true)
         createExercise(selectLesson, formData).then(() => {
             setFormExercise({
                 type: EXERCISE_TYPES.SINGLE_CHOICE,
@@ -391,7 +463,7 @@ export default function Handle() {
             getNotification('success', 'Tạo bài học thành công.')
         }).catch((error) => {
             console.log(error)
-        })
+        }).finally(() => setLoadingCreateExercise(false))
     }
 
     const handleSuccessCreateSkill = () => {
@@ -420,9 +492,26 @@ export default function Handle() {
             getNotification('error', 'Có lỗi xảy ra')
         })
     }
+
+    const handleDeleteItemChooseImage = (index) => {
+        let newFormExercise = _.cloneDeep(formExercise)
+        newFormExercise.choices.splice(index, 1);
+        setFormExercise(newFormExercise)
+    }
+
+    const handleCreateItemChooseImage = () => {
+        let newFormExercise = _.cloneDeep(formExercise)
+        newFormExercise.choices.push({
+            file: null,
+            imageUrl: '',
+            text: ''
+        });
+        setFormExercise(newFormExercise)
+    }
+
     return {
         courseId, columns, skills, lessons, selectSkill, selectLesson, exercises, formExercise, topics,
-        loadingSkill, loadingLesson, loadingExercise, paginationConfig,
+        loadingSkill, loadingLesson, loadingExercise, paginationConfig, loadingCreateExercise,
         visibleCreateExercise, setVisibleCreateExercise, propsCreateFile,
         visibleCreateSkill, setVisibleCreateSkill,
         visibleCreateLesson, setVisibleCreateLesson,
@@ -430,6 +519,7 @@ export default function Handle() {
         handleChangeSelect, handleChangePromptData, handleCreateExercise,
         handleChangeCorrectAnswersTypeMatch, handleDeleteItemAnswerTypeMatch, handleCreateItemAnswerTypeMatch,
         handleSuccessCreateSkill, handleSuccessCreateLesson, handleChangePagination,
-        handleAddTextAnswerTypeFill, handleChangeValuePromptValueQuestionTypeFill
+        handleAddTextAnswerTypeFill, handleChangePromptValueQuestionTypeFill, handleChangeImageChoices,
+        handleCreateItemChooseImage, handleDeleteItemChooseImage
     }
 }

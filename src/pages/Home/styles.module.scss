@@ -72,6 +72,36 @@
     margin-block: 10px;
   }
 
+  .multiChoicesWrap {
+    .itemChoiceWrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 10px;
+
+      .inputWrap {
+        width: 100%;
+      }
+    }
+
+    .btnWrap {
+
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      .btnAddItem {
+        background: #4d85da;
+        color: white;
+        margin-bottom: 10px;
+        &:hover {
+          background: #3e6cb2 !important;
+          color: white !important;
+        }
+      }
+    }
+  }
+
   .labelGroup {
     display: flex;
     justify-content: space-between;
@@ -96,6 +126,10 @@
       background: #3e6cb2 !important;
       color: white !important;
     }
+  }
+
+  .radioGroupWrap {
+    margin-bottom: 20px;
   }
 }
 

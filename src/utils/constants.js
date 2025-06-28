@@ -43,6 +43,7 @@ export const PROMPT_EXERCISE_TYPES = {
 export const CHOICE_TYPES = {
     TEXT: 'text',
     IMAGE: 'image',
+    AUDIO: 'audio',
 }
 
 export const OPTION_TYPE_EXERCISE = [
@@ -86,11 +87,27 @@ export const OPTION_PROMPT_TYPE_1 = [
 export const OPTION_PROMPT_TYPE_2 = [
     {
         value: PROMPT_EXERCISE_TYPES.TEXT,
-        label: 'Dạng văn bản',
+        label: 'Dạng ghép các từ thành câu hoàn chỉnh',
     },
     {
         value: PROMPT_EXERCISE_TYPES.CONNECT_WORD,
-        label: 'Dạng ghép từ',
+        label: 'Dạng nối từ',
+    }
+]
+
+export const PROMPT_EXERCISE_LISTEN_TYPES = {
+    ENTER_INPUT: 'enter_input',
+    WORD_ARRANGEMENT: 'word_arrangement',
+}
+
+export const OPTION_PROMPT_TYPE_LISTEN = [
+    {
+        value: PROMPT_EXERCISE_LISTEN_TYPES.ENTER_INPUT,
+        label: 'Hãy nghe và nhập đáp án đúng',
+    },
+    {
+        value: PROMPT_EXERCISE_LISTEN_TYPES.WORD_ARRANGEMENT,
+        label: 'Hãy nghe và sắp xếp các từ sau thành đáp án đúng',
     }
 ]
 
@@ -102,5 +119,9 @@ export const OPTION_CHOICE_TYPES = [
     {
         value: CHOICE_TYPES.IMAGE,
         label: 'Dạng ảnh',
+    },
+    {
+        value: CHOICE_TYPES.AUDIO,
+        label: 'Dạng audio',
     }
 ]
