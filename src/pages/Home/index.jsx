@@ -11,7 +11,7 @@ import {ModalCreateLesson} from "@/pages/Home/components/ModalCreateLesson";
 export default function Home() {
     const {
         courseId, columns, skills, lessons, selectSkill, selectLesson, exercises, formExercise, topics,
-        loadingSkill, loadingLesson, loadingExercise, paginationConfig,
+        loadingSkill, loadingLesson, loadingExercise, paginationConfig, loadingCreateExercise,
         visibleCreateExercise, setVisibleCreateExercise, propsCreateFile,
         visibleCreateSkill, setVisibleCreateSkill,
         visibleCreateLesson, setVisibleCreateLesson,
@@ -19,7 +19,8 @@ export default function Home() {
         handleChangeSelect, handleChangePromptData, handleCreateExercise,
         handleChangeCorrectAnswersTypeMatch, handleDeleteItemAnswerTypeMatch, handleCreateItemAnswerTypeMatch,
         handleSuccessCreateSkill, handleSuccessCreateLesson, handleChangePagination,
-        handleAddTextAnswerTypeFill, handleChangeValuePromptValueQuestionTypeFill
+        handleAddTextAnswerTypeFill, handleChangePromptValueQuestionTypeFill, handleChangeImageChoices,
+        handleCreateItemChooseImage, handleDeleteItemChooseImage
     } = Handle();
 
     return (
@@ -113,6 +114,7 @@ export default function Home() {
 
             <ModalCreateExercise
                 formExercise={formExercise}
+                loadingCreateExercise={loadingCreateExercise}
                 visibleCreateExercise={visibleCreateExercise}
                 propsCreateFile={propsCreateFile}
                 setVisibleCreateExercise={setVisibleCreateExercise}
@@ -123,7 +125,10 @@ export default function Home() {
                 handleDeleteItemAnswerTypeMatch={handleDeleteItemAnswerTypeMatch}
                 handleCreateExercise={handleCreateExercise}
                 handleAddTextAnswerTypeFill={handleAddTextAnswerTypeFill}
-                handleChangeValuePromptValueQuestionTypeFill={handleChangeValuePromptValueQuestionTypeFill}
+                handleChangePromptValueQuestionTypeFill={handleChangePromptValueQuestionTypeFill}
+                handleChangeImageChoices={handleChangeImageChoices}
+                handleCreateItemChooseImage={handleCreateItemChooseImage}
+                handleDeleteItemChooseImage={handleDeleteItemChooseImage}
             />
 
             <ModalCreateSkill
